@@ -12,6 +12,7 @@ class PeminjamanController extends GetxController with StateMixin<List<DataPinja
   @override
   void onInit() {
     super.onInit();
+    getData();
   }
 
   @override
@@ -26,7 +27,7 @@ class PeminjamanController extends GetxController with StateMixin<List<DataPinja
   Future<void> getData() async {
     change(null, status: RxStatus.loading());
     try {
-      final response = await ApiProvider.instance().get(Endpoint.book);
+      final response = await ApiProvider.instance().get(Endpoint.pinjam);
       if (response.statusCode == 200) {
         final ResponsePinjam responsePinjam = ResponsePinjam.fromJson(response.data);
         if (responsePinjam.data!.isEmpty) {
