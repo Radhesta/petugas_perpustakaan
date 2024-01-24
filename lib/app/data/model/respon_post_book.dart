@@ -1,32 +1,83 @@
-/// judul : "Flutter Getx"
-/// penulis : "romli kusnadi"
-/// penerbit : "PT Damai Sejahtera"
-/// tahun_terbit : 2023
+/// status : 200
+/// message : "Login Success"
+/// data : {"id":1,"username":"testing","nama":"Romli","telp":"085334","alamat":"Solo","role":"PETUGAS","created_at":"2024-01-09T01:55:16.000000Z","updated_at":"2024-01-09T01:55:16.000000Z"}
 
-class ResponPostBook {
-  ResponPostBook({
-      this.judul, 
-      this.penulis, 
-      this.penerbit, 
-      this.tahunTerbit,});
+class ResponsePostBook {
+  ResponsePostBook({
+    this.status,
+    this.message,
+    this.data,});
 
-  ResponPostBook.fromJson(dynamic json) {
-    judul = json['judul'];
-    penulis = json['penulis'];
-    penerbit = json['penerbit'];
-    tahunTerbit = json['tahun_terbit'];
+  ResponsePostBook.fromJson(dynamic json) {
+    status = json['status'];
+    message = json['message'];
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
-  String? judul;
-  String? penulis;
-  String? penerbit;
-  int? tahunTerbit;
+  int? status;
+  String? message;
+  Data? data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['judul'] = judul;
-    map['penulis'] = penulis;
-    map['penerbit'] = penerbit;
-    map['tahun_terbit'] = tahunTerbit;
+    map['status'] = status;
+    map['message'] = message;
+    if (data != null) {
+      map['data'] = data?.toJson();
+    }
+    return map;
+  }
+
+}
+
+/// id : 1
+/// username : "testing"
+/// nama : "Romli"
+/// telp : "085334"
+/// alamat : "Solo"
+/// role : "PETUGAS"
+/// created_at : "2024-01-09T01:55:16.000000Z"
+/// updated_at : "2024-01-09T01:55:16.000000Z"
+
+class Data {
+  Data({
+    this.id,
+    this.username,
+    this.nama,
+    this.telp,
+    this.alamat,
+    this.role,
+    this.createdAt,
+    this.updatedAt,});
+
+  Data.fromJson(dynamic json) {
+    id = json['id'];
+    username = json['username'];
+    nama = json['nama'];
+    telp = json['telp'];
+    alamat = json['alamat'];
+    role = json['role'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+  int? id;
+  String? username;
+  String? nama;
+  String? telp;
+  String? alamat;
+  String? role;
+  String? createdAt;
+  String? updatedAt;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['username'] = username;
+    map['nama'] = nama;
+    map['telp'] = telp;
+    map['alamat'] = alamat;
+    map['role'] = role;
+    map['created_at'] = createdAt;
+    map['updated_at'] = updatedAt;
     return map;
   }
 

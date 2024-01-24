@@ -1,12 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:petugas_perpustakaan_kelas_b/app/data/model/respons_book.dart';
 
-class BookController extends GetxController {
-  //TODO: Implement BookController
+import '../../../data/constan/endpoint.dart';
+import '../../../data/provider/api_provider.dart';
+
+class BookController extends GetxController with StateMixin<List<DataBook>> {
 
   final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    getData();
   }
 
   @override
@@ -17,7 +22,35 @@ class BookController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+
   }
 
-  void increment() => count.value++;
+  Future<void> getData() async {
+    change(null, status: RxStatus.loading());
+    try {
+      final response = await ApiProvider.instance().get(Endpoint.book);
+      if (response.statusCode == 200) {
+        final ResponsBook responseBook = ResponsBook.fromJson(response.data);
+        if (responseBook.data!.isEmpty) {
+          change(null, status: RxStatus.empty());
+        } else {
+          change(responseBook.data, status: RxStatus.success());
+        }
+      } else {
+        change(null, status: RxStatus.error("Gagal mengambil data"));
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response?.data != null) {
+          change(null, status: RxStatus.error("${e.response?.data['message']}"));
+        }
+      } else {
+        change(null, status: RxStatus.error(e.message ??""));
+      }
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
+
+    }
+  }
+
 }
